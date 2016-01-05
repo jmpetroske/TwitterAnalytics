@@ -1,3 +1,5 @@
+var timestampService = "http://students.washington.edu/petroske/twitterAnalytics/timestamps.php";
+
 $(document).ready(function(){
 	var labels = new Array(24); // Stores the labels for the graph
 	for (var i = 0; i < 24; i++){
@@ -13,7 +15,7 @@ $(document).ready(function(){
 	}	
 	
 	$("#loadButton").click(load);
-	$("input[name='displayType']").change(updateChart); // TODO: dont require http request
+	$("input[name='displayType']").change(updateChart);
 	$("#tweetMultiplierDisplay").text("Sample Size: Less than " + $("input[name=tweetMultiplier]").val()*200 + " tweets");	
 	$("input[name=tweetMultiplier]").change(function(){
 		$("#tweetMultiplierDisplay").text("Sample Size: Less than " + $("input[name=tweetMultiplier]").val()*200 + " tweets");	
@@ -59,9 +61,8 @@ $(document).ready(function(){
 			handle = handle.substring(1,handle.length);
 		}
 		console.log("loading: " + handle);
-		console.log("Tweet Multiplier: " + tweetMultiplier);
 
-		$.getJSON("http://students.washington.edu/petroske/testing/timestamps.php",
+		$.getJSON(timestampService,
 			{"handle":handle, "tweetMultiplier":tweetMultiplier},
 			function (data){
 				console.log(data);
@@ -78,7 +79,7 @@ $(document).ready(function(){
                     var dateObj = new Date(data[i] * 1000);
                     hourlyCounts[dateObj.getHours()]++;  
                 }
-				// Account for edge case where no tweets were found
+				// Edge case where no tweets were found
 				if (data.length == 0){
 					hourlyPercents = hourlyCounts;
 				} else {
@@ -92,7 +93,6 @@ $(document).ready(function(){
 				$("#statisticsContainer").append("<p>Tweets Per Hour: " 
 							+ tweetsPerHour.toFixed(2).toString()
 							+ " Sample Size: " + data.length.toString() + "</p>");
-
 				updateChart();
 			}
 		);
