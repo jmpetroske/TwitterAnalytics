@@ -1,6 +1,6 @@
 # TwitterAnalytics
 Gives basics analytics about twitter accounts including:
-- average Retweets per post
+- Average Retweets per post
 - What percentage of tweets a user makes at each hour of the day
 - How many retweets a user's posts get on average depending on time of day
 
